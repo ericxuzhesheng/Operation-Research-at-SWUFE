@@ -49,4 +49,4 @@ By completing this course, students will be able to:
 
 ## License
 
-This project is released under the [MIT License](https://opensource.org/licenses/MIT).
+This project is released under the [LICENSE](LICENSE) .
