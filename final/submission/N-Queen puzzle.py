@@ -6,7 +6,7 @@ import random
 
 class NQueensSolver:
     def __init__(self, n):
-        self.n = n
+        self.n = n  # 皇后数量
         self.solutions = []
         self.unique_set = set()
 
