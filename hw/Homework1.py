@@ -3,7 +3,7 @@ import numpy as np
 from gurobipy import *
 
 # Data loading and preprocessing
-data = pd.read_csv(r"d:\Python\Operation Research\data_portfolio.csv")
+data = pd.read_csv("../lecture note/lec3/data_portfolio.csv")
 stocks = data.columns.values
 
 # Calculate mean returns and covariance matrix

@@ -1,0 +1,46 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# Virtual environments
+.env
+.venv
+env/
+venv/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Gurobi
+*.lp
+*.mps
+*.rlp
+*.sol
+gurobi.log
+
+# Generated output files
+*.log
+orienteering_solution.jpg
+nqueen_solution*.png
+queens_verification_data.csv
+fixed_charge_facility_location_map.html
+pmedian_map.html
+tour.png

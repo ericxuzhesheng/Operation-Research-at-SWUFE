@@ -140,7 +140,7 @@ if m.status == GRB.OPTIMAL:
     plt.ylabel("Y coordinate")
     plt.grid(True)
     plt.tight_layout()
-    plt.savefig(r"d:\Visual Studio Code\Operation Research\orienteering_solution.jpg")
+    plt.savefig("orienteering_solution.jpg")
     plt.show()
 else:
     print("No solution found.")
