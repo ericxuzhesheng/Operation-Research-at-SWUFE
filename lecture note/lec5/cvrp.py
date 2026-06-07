@@ -1,70 +1,96 @@
-import matplotlib.pyplot as plt
+"""
+Capacitated Vehicle Routing Problem with Time Windows (CVRPTW)
+
+Data: Solomon benchmark instance r102 (first 20 customers + depot).
+
+Model:
+  - Binary variable x[i,j]: 1 if a vehicle travels directly from i to j
+  - Continuous variable u[i]: cumulative load when leaving node i
+  - Objective: minimise total travel distance
+  - Constraints: flow balance, vehicle count, capacity via indicator constraints
+"""
+
+import pathlib
+
 import gurobipy as gp
+import matplotlib.pyplot as plt
 
-# data
-n = 20
-Nc = list(range(1, n + 1))
-N = list(range(n + 1))
-A = [(i,j) for i in N for j in N if i != j]
-cx = []
-cy = []
-q = []
-e = []
-l = []
-s = []
-with open('r102.txt') as f:
-    f.readline()
-    f.readline()
-    f.readline()
-    f.readline()
+# ── Data ──────────────────────────────────────────────────────────────────────
+
+n = 20                          # number of customers
+Nc = list(range(1, n + 1))     # customer nodes
+N = list(range(n + 1))         # all nodes (depot = 0)
+A = [(i, j) for i in N for j in N if i != j]
+
+cx, cy, q, e, l, s = [], [], [], [], [], []
+
+data_file = pathlib.Path(__file__).parent / "r102.txt"
+with open(data_file) as f:
+    for _ in range(4):          # skip header lines
+        f.readline()
     vals = f.readline().split()
-    m = int(vals[0])
-    Q = int(vals[1])
-    f.readline()
-    f.readline()
-    f.readline()
-    f.readline()
-    for i in N:
-        vals = f.readline().split()
-        cx.append(int(vals[1]))
-        cy.append(int(vals[2]))
-        q.append(int(vals[3]))
-        e.append(int(vals[4]))
-        l.append(int(vals[5]))
-        s.append(int(vals[6]))
+    m = int(vals[0])            # number of vehicles
+    Q = int(vals[1])            # vehicle capacity
+    for _ in range(4):
+        f.readline()
+    for _ in N:
+        row = f.readline().split()
+        cx.append(int(row[1]))
+        cy.append(int(row[2]))
+        q.append(int(row[3]))
+        e.append(int(row[4]))
+        l.append(int(row[5]))
+        s.append(int(row[6]))
 
-c = {(i,j):round(((cx[i] - cx[j])**2 + (cy[i] - cy[j])**2)**.5, 2) for i,j in A}
+c = {
+    (i, j): round(((cx[i] - cx[j]) ** 2 + (cy[i] - cy[j]) ** 2) ** 0.5, 2)
+    for i, j in A
+}
 
-# model
-mdl = gp.Model('vrp')
+# ── Model ─────────────────────────────────────────────────────────────────────
 
-# decision variables
-x = mdl.addVars(A, vtype=gp.GRB.BINARY, name='x')
-u = mdl.addVars(N, lb=q, ub=Q, name='u')    # define u[0] but do not use, for ease to define its lb and ub
+mdl = gp.Model("cvrptw")
+mdl.params.timelimit = 30
 
-# objective function
+x = mdl.addVars(A, vtype=gp.GRB.BINARY, name="x")
+u = mdl.addVars(N, lb=q, ub=Q, name="u")
+
 mdl.setObjective(x.prod(c), sense=gp.GRB.MINIMIZE)
 
-# constraints: flow conservation
-mdl.addConstrs((x.sum('*', i) == 1 for i in Nc), name='inflow')
-mdl.addConstrs((x.sum(i, '*') == 1 for i in Nc), name='outflow')
-mdl.addConstr(x.sum(0, '*') <= m, name='vehicle')
+# Each customer visited exactly once
+mdl.addConstrs((x.sum("*", i) == 1 for i in Nc), name="inflow")
+mdl.addConstrs((x.sum(i, "*") == 1 for i in Nc), name="outflow")
 
-# constraints: capacity & subtour elimination
-mdl.addConstrs(((x[i,j] == 1) >> (u[j] >= u[i] + q[j])
-                for i in Nc for j in Nc if i != j), name='capacity')
+# Fleet size limit
+mdl.addConstr(x.sum(0, "*") <= m, name="vehicles")
 
-# optimize
-mdl.write('cvrp.lp')
-mdl.params.timelimit = 30
+# Capacity & subtour elimination (indicator form)
+mdl.addConstrs(
+    (x[i, j] == 1) >> (u[j] >= u[i] + q[j])
+    for i in Nc
+    for j in Nc
+    if i != j
+)
+
+# ── Solve ─────────────────────────────────────────────────────────────────────
+
 mdl.optimize()
 
-# print soluiton
-print('the optimality gap =', mdl.mipgap)
+# ── Results ───────────────────────────────────────────────────────────────────
+
+print(f"Optimality gap: {mdl.mipgap:.4%}")
+
 if mdl.status != gp.GRB.INFEASIBLE:
-    plt.scatter(cx[0], cy[0], c='r', marker='s')  # the depot
-    plt.scatter(cx[1:], cy[1:])
-    selected = [(i,j) for (i,j) in A if x[i,j].x > .9]
-    for (i,j) in selected:
-        plt.plot((cx[i], cx[j]), (cy[i], cy[j]), c='g')
-    plt.savefig('vrp.png', dpi=300)
+    fig, ax = plt.subplots()
+    ax.scatter(cx[0], cy[0], c="red", marker="s", label="Depot")
+    ax.scatter(cx[1:], cy[1:], label="Customer")
+
+    for i, j in A:
+        if x[i, j].x > 0.9:
+            ax.plot([cx[i], cx[j]], [cy[i], cy[j]], "g-", linewidth=0.8)
+
+    ax.legend()
+    ax.set_title("CVRPTW Solution")
+    output = pathlib.Path(__file__).parent / "vrp.png"
+    plt.savefig(output, dpi=300)
+    print(f"Route plot saved to '{output}'.")
