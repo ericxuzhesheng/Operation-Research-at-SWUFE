@@ -1,46 +1,58 @@
-# -*- coding: utf-8 -*-
 """
-Created on Sun Apr 27 14:29:25 2025
+Transportation Problem — Gurobi implementation
 
-@author: lab
+A company ships PCs from three plants to four retail outlets.
+Objective: minimise total shipping cost subject to supply and demand constraints.
+
+  min  sum_{i in P, j in R}  c[i,j] * x[i,j]
+  s.t. sum_{i in P} x[i,j] == demand[j]   for all j in R
+       sum_{j in R} x[i,j] <= supply[i]   for all i in P
+       x[i,j] >= 0
 """
 
-from gurobipy import *
+from gurobipy import GRB, Model, quicksum
 
+# ── Data ──────────────────────────────────────────────────────────────────────
 
-# data
-plant = [1, 2, 3]
-retailer = ["A", "B", "C", "D"]
-capacity_raw = [1700, 2000, 1700]
-# capacity = {plant[i]:capacity_raw[i] for i in range(len(plant))}
-capacity = dict(zip(plant, capacity_raw))
-demand_raw = [1700, 1000, 1500, 1200]
-demand = dict(zip(retailer, demand_raw))
+plants = [1, 2, 3]
+retailers = ["A", "B", "C", "D"]
+
+supply = {1: 1700, 2: 2000, 3: 1700}
+demand = {"A": 1700, "B": 1000, "C": 1500, "D": 1200}
+
 cost_raw = [[5, 3, 2, 6], [7, 7, 8, 10], [6, 5, 3, 8]]
 cost = {
-    (plant[i], retailer[j]): cost_raw[i][j]
-    for i in range(len(plant))
-    for j in range(len(retailer))
+    (plants[i], retailers[j]): cost_raw[i][j]
+    for i in range(len(plants))
+    for j in range(len(retailers))
 }
 
-# model
+# ── Model ─────────────────────────────────────────────────────────────────────
 
 m = Model("transportation")
+m.setParam("OutputFlag", 0)
 
-# 1. decision variables
-x = m.addVars(plant, retailer, name="transport_qty")
+x = m.addVars(plants, retailers, name="ship")
 
-# 2. objective
-m.setObjective(x.prod(cost), sense=GRB.MINIMIZE)
+m.setObjective(x.prod(cost), GRB.MINIMIZE)
 
-# 3. constraints
-m.addConstrs((x.sum("*", j) == demand[j] for j in retailer), name="retailer_con")
-m.addConstrs((x.sum(i, "*") <= capacity[i] for i in plant), name="plant_con")
+m.addConstrs(
+    (x.sum("*", j) == demand[j] for j in retailers),
+    name="demand",
+)
+m.addConstrs(
+    (x.sum(i, "*") <= supply[i] for i in plants),
+    name="supply",
+)
 
+# ── Solve ─────────────────────────────────────────────────────────────────────
 
 m.optimize()
 
-# analysis
-for v in m.getVars():
-    print(v.varName, "=", v.x)
-print("obj val =", m.objVal)
+# ── Results ───────────────────────────────────────────────────────────────────
+
+print(f"Optimal shipping cost: ${m.objVal:,.0f}")
+print("\nShipment plan (plant → retailer : units):")
+for (i, j), var in x.items():
+    if var.x > 0:
+        print(f"  Plant {i} → Retailer {j} : {var.x:.0f} units")

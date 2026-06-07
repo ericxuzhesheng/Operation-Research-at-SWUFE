@@ -1,107 +1,177 @@
 # Operations Research at SWUFE | 西南财经大学运筹学
 
 <p align="center">
-  <a href="#english">
-    <img src="https://img.shields.io/badge/Language-English-1F6FEB?style=for-the-badge" alt="English" />
-  </a>
-  <a href="#chinese">
-    <img src="https://img.shields.io/badge/%E8%AF%AD%E8%A8%80-%E4%B8%AD%E6%96%87-E5534B?style=for-the-badge" alt="中文" />
-  </a>
+  <img src="https://img.shields.io/badge/Python-3.10%2B-3776AB?style=flat-square&logo=python&logoColor=white" alt="Python" />
+  <img src="https://img.shields.io/badge/Gurobi-11%2B-ED1C24?style=flat-square" alt="Gurobi" />
+  <img src="https://img.shields.io/badge/Jupyter-Notebook-F37626?style=flat-square&logo=jupyter&logoColor=white" alt="Jupyter" />
+  <img src="https://img.shields.io/badge/License-MIT-green?style=flat-square" alt="License" />
+</p>
+
+<p align="center">
+  <a href="#english">English</a> · <a href="#chinese">中文</a>
 </p>
 
 ---
 
 <a id="english"></a>
 
-## English
+## Overview
 
-This repository contains comprehensive materials for the **Operations Research** course at the **Southwestern University of Finance and Economics (SWUFE)**.
+Course materials for the **Operations Research** course at [Southwestern University of Finance and Economics (SWUFE)](https://www.swufe.edu.cn/). The repository covers both theory and hands-on Python/Gurobi implementation across seven progressive lecture modules.
 
-It is designed to equip students with both **theoretical foundations** and **practical skills** in optimization, decision-making, and algorithmic problem-solving.
+## Repository Structure
 
-### Main Learning Topics
+```
+.
+├── slide/
+│   ├── theory/          # Theoretical lecture slides (LP, IP, Graph & Network)
+│   └── practice/        # Hands-on practice slides (Python, Gurobi, case studies)
+├── lecture note/
+│   ├── lec2/            # Linear programming basics (Gurobi intro)
+│   ├── lec3/            # Portfolio optimization & transportation
+│   ├── lec4/            # Facility location (p-median, FCFL)
+│   ├── lec5/            # Traveling salesman & orienteering
+│   ├── lec6/            # Heuristics — simulated annealing
+│   └── lec7/            # Sudoku solver (constraint programming)
+├── hw/
+│   ├── Homework1.py     # Portfolio optimization (mean-variance model)
+│   ├── Homework2.py     # Grocery store binary IP
+│   └── Homework3.py     # Orienteering problem (TSP variant)
+└── final/
+    └── submission/      # N-Queens puzzle — final project
+```
 
-The course covers a broad spectrum of operations research areas, including:
+## Course Modules
 
-1. **Foundations and Tools**
-   - **Intro to Python**: Programming basics for data handling, computation, and visualization.
-   - **Hands-on Gurobi**: Modeling and solving optimization problems using a state-of-the-art solver.
-   - **Mathematical Foundations**: Linear programming and integer programming formulation and solution methods.
+| # | Topic | Slides | Notebook | Code |
+|---|-------|--------|----------|------|
+| 1 | Intro to Python | [PDF](slide/practice/1-Intro%20to%20Python.pdf) | — | — |
+| 2 | Hands-on Gurobi · Linear Programming | [PDF](slide/practice/2-Hands-on%20Gurobi.pdf) | [lec2.ipynb](lecture%20note/lec2/lec2.ipynb) | — |
+| 3 | Portfolio Optimization · Transportation | [PDF](slide/practice/3-Portfolio%20Optimization.pdf) | [lec3.ipynb](lecture%20note/lec3/lec3.ipynb) | [transportation.py](lecture%20note/lec3/transportation.py) |
+| 4 | Facility Location (p-Median, FCFL) | [PDF](slide/practice/4-Facility%20Location.pdf) | [lec4.ipynb](lecture%20note/lec4/lec4.ipynb) | [fcfl-data.py](lecture%20note/lec4/fcfl-data.py) |
+| 5 | Traveling Salesman Problem (TSP) | [PDF](slide/practice/5-Traveling%20Salesman%20Problem.pdf) | [lec5.ipynb](lecture%20note/lec5/lec5.ipynb) | [cvrp.py](lecture%20note/lec5/cvrp.py) |
+| 6 | Heuristics & Metaheuristics | [PDF](slide/practice/6-Heuristics.pdf) | [lec6.ipynb](lecture%20note/lec6/lec6.ipynb) | [SA.py](lecture%20note/lec6/SA.py) |
+| 7 | Sudoku Solver | [PDF](slide/practice/7-Sudoku.pdf) | [lec7.ipynb](lecture%20note/lec7/lec7.ipynb) | — |
 
-2. **Optimization Applications**
-   - **Portfolio Optimization**: Mathematical modeling for financial decision-making and risk-return trade-offs.
-   - **Facility Location**: Strategic planning for optimal facility placement to minimize cost and maximize efficiency.
-   - **Traveling Salesman Problem (TSP)**: Classic combinatorial optimization problem and its variants.
-   - **Graph and Network Optimization**: Shortest paths, maximum flow, and network design.
+**Theory slides:** [Linear Programming](slide/theory/PPT1-Introduction%20and%20linear%20programming.pdf) · [Integer Programming](slide/theory/PPT2-Integer%20prgramming.pdf) · [Graph & Network](slide/theory/PPT3-Graph%20and%20network.pdf)
 
-3. **Heuristic and AI-Based Methods**
-   - **Heuristics & Metaheuristics**: Greedy algorithms, simulated annealing, and genetic algorithms for large-scale optimization.
-   - **Sudoku Solver**: Applying constraint programming and optimization to logic puzzles.
-   - **Game Theory**: Strategic decision-making in competitive and cooperative environments.
+## Prerequisites
 
-4. **Problem-Solving Skills**
-   - Mathematical modeling from real-world scenarios.
-   - Translating problems into formal optimization models.
-   - Using computational tools to implement and solve problems.
+- Python 3.10+
+- A valid [Gurobi license](https://www.gurobi.com/academia/academic-program-and-licenses/) (free for students and academics)
 
-### Learning Outcomes
+## Getting Started
 
-By completing this course, students will be able to:
+```bash
+# 1. Clone the repository
+git clone https://github.com/ericxuzhesheng/Operation-Research-at-SWUFE.git
+cd Operation-Research-at-SWUFE
 
-- Model real-world problems in mathematical form.
-- Solve linear, integer, and combinatorial optimization problems.
-- Apply heuristics when exact methods are impractical.
-- Use Python and Gurobi for implementation.
-- Analyze and interpret optimization results for decision-making.
+# 2. Install dependencies
+pip install -r requirements.txt
+
+# 3. Launch Jupyter to explore lecture notebooks
+jupyter lab "lecture note/"
+```
+
+## Homework Summary
+
+| File | Problem | Method |
+|------|---------|--------|
+| [Homework1.py](hw/Homework1.py) | Mean-variance portfolio optimization | Quadratic programming (Gurobi) |
+| [Homework2.py](hw/Homework2.py) | Grocery store revenue maximization | Binary integer programming |
+| [Homework3.py](hw/Homework3.py) | Orienteering problem (score-collecting TSP) | MIP with MTZ subtour elimination |
+
+## Final Project
+
+**N-Queens Puzzle** — solve the classic N-Queens problem using Gurobi's MIP solver with lazy constraints to enumerate all solutions.
+
+- [Source code](final/submission/N-Queen%20puzzle.py)
+- [Report (PDF)](final/submission/N_Queens_puzzle.pdf)
+- [Verification data (CSV)](final/submission/queens_verification_data.csv)
 
 ---
 
 <a id="chinese"></a>
 
-## 中文
+## 概览
 
-本仓库汇集了**西南财经大学（SWUFE）运筹学课程**的完整学习资料。
+本仓库汇集了**西南财经大学运筹学课程**的完整学习资料，涵盖七个渐进式讲座模块的理论基础与 Python/Gurobi 实践实现。
 
-课程旨在帮助学生同时掌握优化、决策分析与算法求解的**理论基础**和**实践能力**。
+## 仓库结构
 
-### 主要学习内容
+```
+.
+├── slide/
+│   ├── theory/          # 理论讲义（线性规划、整数规划、图与网络）
+│   └── practice/        # 实践讲义（Python、Gurobi、案例研究）
+├── lecture note/
+│   ├── lec2/            # 线性规划基础（Gurobi 入门）
+│   ├── lec3/            # 投资组合优化与运输问题
+│   ├── lec4/            # 设施选址（p-中位数、固定成本设施选址）
+│   ├── lec5/            # 旅行商问题与定向越野问题
+│   ├── lec6/            # 启发式方法——模拟退火
+│   └── lec7/            # 数独求解（约束规划）
+├── hw/
+│   ├── Homework1.py     # 投资组合优化（均值-方差模型）
+│   ├── Homework2.py     # 超市选址二进制整数规划
+│   └── Homework3.py     # 定向越野问题（TSP 变体）
+└── final/
+    └── submission/      # N 皇后问题——期末项目
+```
 
-课程覆盖运筹学中的多个核心方向，包括：
+## 课程模块
 
-1. **基础与工具**
-   - **Python 入门**：学习数据处理、数值计算与可视化的编程基础。
-   - **Gurobi 实战**：使用先进求解器完成优化建模与求解。
-   - **数学基础**：线性规划与整数规划的建模方法和求解思路。
+| # | 主题 | 讲义 | Notebook | 代码 |
+|---|------|------|----------|------|
+| 1 | Python 入门 | [PDF](slide/practice/1-Intro%20to%20Python.pdf) | — | — |
+| 2 | Gurobi 实战 · 线性规划 | [PDF](slide/practice/2-Hands-on%20Gurobi.pdf) | [lec2.ipynb](lecture%20note/lec2/lec2.ipynb) | — |
+| 3 | 投资组合优化 · 运输问题 | [PDF](slide/practice/3-Portfolio%20Optimization.pdf) | [lec3.ipynb](lecture%20note/lec3/lec3.ipynb) | [transportation.py](lecture%20note/lec3/transportation.py) |
+| 4 | 设施选址（p-中位数、FCFL）| [PDF](slide/practice/4-Facility%20Location.pdf) | [lec4.ipynb](lecture%20note/lec4/lec4.ipynb) | [fcfl-data.py](lecture%20note/lec4/fcfl-data.py) |
+| 5 | 旅行商问题（TSP）| [PDF](slide/practice/5-Traveling%20Salesman%20Problem.pdf) | [lec5.ipynb](lecture%20note/lec5/lec5.ipynb) | [cvrp.py](lecture%20note/lec5/cvrp.py) |
+| 6 | 启发式与元启发式算法 | [PDF](slide/practice/6-Heuristics.pdf) | [lec6.ipynb](lecture%20note/lec6/lec6.ipynb) | [SA.py](lecture%20note/lec6/SA.py) |
+| 7 | 数独求解 | [PDF](slide/practice/7-Sudoku.pdf) | [lec7.ipynb](lecture%20note/lec7/lec7.ipynb) | — |
 
-2. **优化应用**
-   - **投资组合优化**：构建金融决策中的风险收益权衡模型。
-   - **设施选址**：通过优化选址提升资源配置效率并降低成本。
-   - **旅行商问题（TSP）**：经典组合优化问题及其扩展。
-   - **图与网络优化**：最短路、最大流与网络设计等问题。
+**理论讲义：** [线性规划](slide/theory/PPT1-Introduction%20and%20linear%20programming.pdf) · [整数规划](slide/theory/PPT2-Integer%20prgramming.pdf) · [图与网络](slide/theory/PPT3-Graph%20and%20network.pdf)
 
-3. **启发式与智能方法**
-   - **启发式与元启发式算法**：贪心算法、模拟退火和遗传算法等方法。
-   - **数独求解**：使用约束建模与优化求解逻辑类问题。
-   - **博弈论**：竞争与合作情境下的策略决策分析。
+## 环境要求
 
-4. **问题求解能力**
-   - 从真实场景抽象并建立数学模型。
-   - 将问题转化为规范化优化模型。
-   - 使用计算工具实现并求解模型。
+- Python 3.10+
+- 有效的 [Gurobi 许可证](https://www.gurobi.com/academia/academic-program-and-licenses/)（学生和学术用户免费）
 
-### 学习成果
+## 快速开始
 
-完成本课程后，学生将能够：
+```bash
+# 1. 克隆仓库
+git clone https://github.com/ericxuzhesheng/Operation-Research-at-SWUFE.git
+cd Operation-Research-at-SWUFE
 
-- 对现实问题进行数学建模。
-- 求解线性、整数与组合优化问题。
-- 在精确算法不可行时应用启发式方法。
-- 使用 Python 和 Gurobi 进行建模与实现。
-- 对优化结果进行分析并支持决策。
+# 2. 安装依赖
+pip install -r requirements.txt
+
+# 3. 启动 Jupyter 浏览讲义 Notebook
+jupyter lab "lecture note/"
+```
+
+## 作业说明
+
+| 文件 | 问题 | 方法 |
+|------|------|------|
+| [Homework1.py](hw/Homework1.py) | 均值-方差投资组合优化 | 二次规划（Gurobi）|
+| [Homework2.py](hw/Homework2.py) | 超市营收最大化 | 二进制整数规划 |
+| [Homework3.py](hw/Homework3.py) | 定向越野问题（得分收集型 TSP）| MTZ 子回路消除的混合整数规划 |
+
+## 期末项目
+
+**N 皇后问题** — 使用 Gurobi 的 MIP 求解器配合惰性约束，枚举 N 皇后问题的所有解。
+
+- [源代码](final/submission/N-Queen%20puzzle.py)
+- [报告（PDF）](final/submission/N_Queens_puzzle.pdf)
+- [验证数据（CSV）](final/submission/queens_verification_data.csv)
 
 ---
 
 ## License | 许可证
 
-This project is released under the [LICENSE](LICENSE).  
-本项目采用 [LICENSE](LICENSE) 中所述许可协议。
+Released under the [MIT License](LICENSE).  
+本项目基于 [MIT 许可证](LICENSE) 开源。
